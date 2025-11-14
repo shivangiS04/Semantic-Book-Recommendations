@@ -4,12 +4,13 @@ import os
 from dotenv import load_dotenv
 
 from langchain_community.document_loaders import TextLoader
-from langchain.embeddings.base import Embeddings
+from langchain_community.vectorstores import Chroma
 from langchain_text_splitters import CharacterTextSplitter
-from langchain_chroma import Chroma
+from langchain.embeddings.base import Embeddings
 import cohere
 import gradio as gr
 import time
+
 
 class CohereCustomEmbeddings(Embeddings):
     def embed_documents(self, texts):
@@ -52,7 +53,12 @@ embedding = CohereCustomEmbeddings()
 db_books = None
 
 raw_documents = TextLoader("tagged_description.txt").load()
-text_splitter = CharacterTextSplitter(separator="\n", chunk_size=0, chunk_overlap=0)
+text_splitter = CharacterTextSplitter(
+    separator="\n",
+    chunk_size=500,
+    chunk_overlap=50
+)
+
 documents = text_splitter.split_documents(raw_documents)
 
 # Limit to first 1000 documents for faster loading
