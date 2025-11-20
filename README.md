@@ -1,4 +1,4 @@
-# Semantic Book Recommender
+# ReadMatch
 
 A semantic book recommendation system built with Gradio, LangChain, and Cohere embeddings.
 
